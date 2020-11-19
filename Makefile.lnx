@@ -1,0 +1,30 @@
+CC=gcc -g -O2
+MAKE = make -f Makefile.lnx
+SRC = $(wildcard src/*.c)
+OBJ = src/*.o
+CPPFLAGS = -Iinclude -Isrc -I/src/fun
+LIBS = src/fun/libfun.a
+LDFLAGS = -lm
+TARGET0 = analysis
+TARGETS = analysis
+RMTARGETS = src/analysis
+all: libfun $(TARGETS)
+#creating libfun
+all: $(TARGETS)
+libfun: src/fun/functions.o src/fun/plot.o
+	cd src/fun && $(MAKE)
+cleanlibfun: src/fun/functions.o src/fun/plot.o
+	cd src/fun && $(MAKE) clean
+$(TARGET0).o: src/analysis.c
+	$(CC) -c   $< -o src/analysis.o $(CPPFLAGS)
+$(TARGET0): src/analysis.o
+	$(CC) $< $(LIBS) -o src/analysis $(LDFLAGS)
+install: all
+	mv $(TARGETS) bin
+.PHONY: clean distclean cleanlibfun
+clean: cleanlibfun
+	rm -f $(OBJ) $(RMTARGETS)
+cleanlibfun: 
+	rm -f src/fun/libfun.a src/fun/*.o src/fun/testlibfun src/fun/testlibfun.exe
+distclean: clean
+	rm -f bin/* Makefile* *.fit *.fits *.csv *.ssv *.tsv *.dat *.txt *.log

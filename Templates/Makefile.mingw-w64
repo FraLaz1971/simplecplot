@@ -1,0 +1,28 @@
+# Project: coffee
+# Makefile created by Dev-C++ 4.9.9.2
+# and modified by fralaz1971 for mingw-w64
+
+CXX  = g++.exe
+CC   = gcc.exe
+OBJ  = coffee.o
+LINKOBJ  = coffee.o
+LIBS =  -L"."  -g
+INCS =  -I"." 
+CXXINCS =  -I"include"  
+BIN  = coffee.exe
+CXXFLAGS = $(CXXINCS)   -g
+CFLAGS = $(INCS)   -g
+RM = del
+
+.PHONY: all clean
+
+all: coffee.exe
+
+clean:
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o coffee.exe $(LIBS)
+
+coffee.o: coffee.c
+	$(CC) -c coffee.c -o coffee.o $(CFLAGS)

@@ -1,0 +1,50 @@
+# Project: coffee
+# Makefile created by Dev-C++ 4.9.9.2
+# and modified by fralaz1971
+
+CC   = gcc
+EEXT=
+OEXT = .o
+AEXT = .a
+TARGET = testlibfun
+TARGET1 = functions
+TARGET2 = plot
+LIB1 = libfun
+OBJ  = $(TARGET)$(OEXT)
+LINKOBJ  = $(TARGET1)$(OEXT) $(TARGET2)$(OEXT)
+LIBS =  -L.  -g3
+INCS =  -I.
+CXXINCS =  -I.  -Iinclude
+BIN  = $(TARGET)$(EEXT)
+CXXFLAGS = $(CXXINCS)   -g
+CFLAGS = $(INCS)   -g
+LDFLAGS = -L.
+RM = rm -f
+AR = ar rcs
+
+all: $(LINKOBJ) $(LIB1) $(BIN)
+
+$(TARGET1)$(OEXT): $(TARGET1).c $(TARGET1).h exits.h
+	$(CC) -c $(TARGET1).c -o $(TARGET1)$(OEXT) $(CFLAGS)
+
+
+$(TARGET2)$(OEXT): $(TARGET2).c $(TARGET2).h exits.h
+	$(CC) -c $(TARGET2).c -o $(TARGET2)$(OEXT) $(CFLAGS)
+
+
+$(LIB1): $(LINKOBJ)
+	$(AR) $(LIB1)$(AEXT) $?
+
+$(OBJ): $(TARGET).c $(TARGET1).h $(TARGET2).h
+	$(CC) -c $(TARGET).c -o $(OBJ) $(CFLAGS)
+
+
+$(BIN): $(OBJ) $(LIB1)
+	$(CC) $(BIN).c -o $(BIN) $(LIBS) $(LDFLAGS) $(LIB1)$(AEXT)
+
+
+.PHONY: all clean
+
+
+clean:
+	${RM} $(OBJ) $(LINKOBJ) $(BIN) $(LIB1)$(AEXT)

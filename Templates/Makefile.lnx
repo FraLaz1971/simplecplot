@@ -1,0 +1,31 @@
+# Project: coffee
+# Makefile created by Dev-C++ 4.9.9.2
+# and modified by fralaz1971
+
+CC   = gcc
+EEXT=
+OEXT = .o
+TARGET = insults
+OBJ  = $(TARGET)$(OEXT)
+LINKOBJ  = $(TARGET)$(OEXT)
+LIBS =  -L.  -g3
+INCS =  -I.
+CXXINCS =  -I.  -Iinclude
+BIN  = $(TARGET)$(EEXT)
+CXXFLAGS = $(CXXINCS)   -g
+CFLAGS = $(INCS)   -g
+RM = rm -f
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+
+$(OBJ):
+	$(CC) -c $(TARGET).c -o $(OBJ) $(CFLAGS)
+
+.PHONY: all clean
+
+all: $(BIN)
+
+clean:
+	${RM} $(OBJ) $(BIN)

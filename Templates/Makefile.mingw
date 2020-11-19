@@ -1,0 +1,33 @@
+# Project: coffee
+# Makefile created by Dev-C++ 4.9.9.2
+# and modified by fralaz1971 for mingw-w64
+
+EEXT= .exe
+OEXT = .o
+TARGET = insults
+OBJ  = $(TARGET)$(OEXT)
+LINKOBJ  = $(TARGET)$(OEXT)
+BIN  = $(TARGET)$(EEXT)
+CXX  = x86_64-w64-mingw32-g++
+CC   = x86_64-w64-mingw32-gcc
+LDFLAGS =  -L"."  -g
+LIBS = 
+INCS =  -I"."
+CXXINCS =  -I"include"
+CXXFLAGS = $(CXXINCS)   -g
+CFLAGS = $(INCS) -std=c99  -g
+RM = rm -f
+
+$(BIN): $(OBJ)
+	$(CC) $(LINKOBJ) -o $(BIN) $(LIBS) $(CFLAGS)
+
+$(OBJ):
+	$(CC) -c $(TARGET).c -o $(OBJ) $(CFLAGS) $(LDFLAGS)
+
+.PHONY: all clean
+
+all: $(BIN)
+
+clean:
+	${RM} $(OBJ) $(BIN)
+
