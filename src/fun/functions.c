@@ -3,7 +3,7 @@
 #include "functions.h"
 
 void parserow(char *mybuffer, int mncols){
-            cc=0; fcharcount=0;colcount=0;
+            cc=0; fcharcount=0;colcount=0; int lx; double ly;
     		while( mybuffer[cc] != RS ){ /* while on line characters */
 			if ( (mybuffer[cc] != FS) ){
 				/* field[fcharcount][rowcount]=mybuffer[cc]; */
@@ -13,22 +13,27 @@ void parserow(char *mybuffer, int mncols){
 				}
 				/* printf("cc = %d fcc = %d temp = %s\n", cc, fcharcount, temp);  */
 			} else {
-				printf("%s ", temp);
-                data[rowcount*mncols+colcount]=atof(temp);                    
-				colcount++;
+/*				fprintf(stderr, "%s \n", temp); */
+                lx=rowcount*mncols+colcount; ly= atof(temp);
+                xdata[lx]=lx;                     
+                ydata[lx]=ly;                     
+                colcount++;
 				fcharcount=0;
-				memcpy(temp, "", 16);
+				memcpy(temp, "", FSIZE);
 			}
 			cc++;
 		}
-		printf("%s\n", temp);
-        data[rowcount*mncols+colcount]=atof(temp);                    
+        lx=rowcount*mncols+colcount; ly= atof(temp);
+        xdata[lx]=lx;                     
+        ydata[lx]=ly;
+		fprintf(stderr, "%f\t%f\n",xdata[lx], ydata[lx]); 
+		printf("%f\t%f\n",xdata[lx], ydata[lx]); 
 		colcount++;
 
 }
 
-void showdata(float *mydata, int mnrows, int mncols){
-    puts("showdata() START");
+void showdata(double *mydata, int mnrows, int mncols){
+    fprintf(stderr, "showdata() START\n");
     int myrowcount=0; int mycolcount=0;
     for(myrowcount=0;myrowcount<mnrows;myrowcount++){
         for(mycolcount=0;mycolcount<mncols;mycolcount++){
@@ -36,7 +41,7 @@ void showdata(float *mydata, int mnrows, int mncols){
         }
         printf("\n");
     }
-    puts("showdata() STOP");
+    fprintf(stderr, "showdata() STOP\n");
 }
 
 
@@ -70,11 +75,11 @@ void open_data_file(const char *filen){
         }     
 }
 
-void parse_data_file(){
+void parse_data_file(char * mybuffer, int mnrows, int mncols){
 	rowcount=0; totlines=0; totchars=0;
-	while ((characters=getline(&buffer,&bufsize,ptr)) != EOF ) /* until you reach the end of the file */
+	while (((characters=getline(&mybuffer,&bufsize,ptr)) != EOF) && (rowcount < mnrows) ) /* until you reach the end of the file or the asked n. of rows*/
     {
-        parserow(buffer, ncols);	/* O/P the field values to the screen	*/
+        parserow(mybuffer, rowcount);/* O/P the field values to the screen	*/
         rowcount++;
     }
     
@@ -84,29 +89,30 @@ void close_data_file(FILE *fp){
     fclose(fp);			/* Close the file.	*/
 }
 
-void allocate_buffer(){
-	buffer = (char *)malloc(bufsize * sizeof(char));
-    if( buffer == NULL)
+void allocate_buffer(char *mybuffer){
+	mybuffer = (char *)malloc(bufsize * sizeof(char));
+    if( mybuffer == NULL)
     {
-        		perror("parsefile.c: Unable to allocate buffer");
+        		perror("parsefile.c: Unable to allocate mybuffer");
         		exit(1);
     }
 }
 
-void allocate_data(){
+void allocate_data(double *mydata){
    	/* allocate an array of float to contain the read data */
-	data = (float *)calloc(nrows*ncols, sizeof(float));
-    if( buffer == NULL)
+	mydata = (double *)calloc(nrows*ncols, sizeof(double));
+    if( mydata == NULL)
     {
-        		perror("parsefile.c: Unable to allocate array");
+        		perror("parsefile.c: Unable to allocate array double 'mydata' ");
         		exit(1);
     }
     
 }
 
-void deallocate_buffer(){
-    free(buffer);
+void deallocate_buffer(char *mybuffer){
+    free(mybuffer);
 }
-void deallocate_data(){
-    free(data);    
+
+void deallocate_data(double *mydata){
+    free(mydata);    
 }
