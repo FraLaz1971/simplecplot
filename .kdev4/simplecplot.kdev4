@@ -1,0 +1,26 @@
+[Buildset]
+BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\x16\x00s\x00i\x00m\x00p\x00l\x00e\x00c\x00p\x00l\x00o\x00t)
+
+[Launch]
+Launch Configurations=Launch Configuration 0
+
+[Launch][Launch Configuration 0]
+Configured Launch Modes=execute
+Configured Launchers=nativeAppLauncher
+Name=simplecplot
+Type=Native Application
+
+[Launch][Launch Configuration 0][Data]
+Arguments=../data/test.csv 2 2
+Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
+Dependency Action=Nothing
+EnvironmentGroup=
+Executable=file:///home/francesco/projects/c_cpp/simplecplot/src/analysis
+External Terminal=konsole --noclose --workdir %workdir -e %exe
+Project Target=
+Use External Terminal=false
+Working Directory=file:///home/francesco/projects/c_cpp/simplecplot/src
+isExecutable=true
+
+[MakeBuilder]
+Additional Options=-f Makefile.lnx
